@@ -20,12 +20,10 @@ void turn(int angle){
 	}
 	
 	if(angle > 0){
-		printf("Allen tell spence 1");
 		leftPower = power * -1;
 		rightPower = (power + 10) * -1;
 	}
 	else{
-		printf("Allen tell spence 2");
 		leftPower = power;
 		rightPower = (power + 10) * 1;
 	}
