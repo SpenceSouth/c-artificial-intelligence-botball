@@ -6,7 +6,7 @@ int main()
 {
 	printf("Hello Comrad!\n");
 	
-	move(25, 1000);
+	move(25, 10000);
 	
 	
 	return 0;
