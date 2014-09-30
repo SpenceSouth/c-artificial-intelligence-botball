@@ -4,9 +4,15 @@
 
 int main() 
 {
-	printf("Hello, World!\n");
+	printf("Hello Russ!\n");
+	int loop = 0;
 	
-	
+	//while(loop < 100){
+	//
+	//	motor(0, 25);
+	//	motor(1, 25);
+	//	loop++
+	//}
 	
 	
 	
