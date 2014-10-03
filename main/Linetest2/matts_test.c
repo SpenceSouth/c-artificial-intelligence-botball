@@ -63,6 +63,8 @@ int main()
 	int high=50,low=-10; 								// set wheel powers for arc radius
 	int flag=0;
 	
+	turn(90*6.1)
+	
 	/*if (analog10(cport)<500)
 		threshold=400;
 	*/
@@ -72,7 +74,7 @@ int main()
 
 	printf("Line following: position robot on tape\n");
 	printf("Press B button when ready\n\nPress side button to stop\n");
-	while(b_button()==0) {} 						// wait for button press
+	/*while(b_button()==0) {} 						// wait for button press
 		while(side_button()==0&&flag==0)
 		{ 						// stop if button is pressed
 			while (analog10(cport) > threshold) 
@@ -131,7 +133,7 @@ int main()
 				if (side_button()!=0) 
 					break; 
 			} 							// or button pressed
-	}
+	}*/
 	
 	
 	ao(); 															// stop because button pressed
