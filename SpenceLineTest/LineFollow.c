@@ -9,6 +9,7 @@ int main(void)
 	int left_sensor = 2;
 	int dark = 500; 
 	int light_dark = 500;
+	int last_turn = 0;
 	
 	
 	
@@ -33,23 +34,38 @@ int main(void)
 		//Moves the robot while the center sensor is the only one with input.
 		while((analog10(center_sensor) > dark) && (analog10(right_sensor) < light_dark && analog10(left_sensor)))
 		{
-			move(20, 5);
+			move(1, 1);
 		}
 		
 		//Handle then the robot strays outside of the blackline
 		if((analog10(center_sensor) <= dark) && (analog10(right_sensor) < dark && analog10(left_sensor) < dark))
 		{
-			turn(30);
+			if(last_turn == 0)
+			{
+				turn(30);
+			}
+			else
+			{
+				turn(45);
+			}
 		}
 		if((analog10(center_sensor) <= dark) && (analog10(right_sensor) < dark && analog10(left_sensor) < dark))
 		{
-			turn(-45);
+			if(last_turn == 0)
+			{
+				turn(-45);
+			}
+			else
+			{
+				turn(-30);
+			}
 		}
 		
 		//Turn right when right sensor has dark value
 		if((analog10(center_sensor) > dark) && (analog10(right_sensor) > light_dark))
 		{
 			printf("Turning right: %d\n", analog10(right_sensor));
+			last_turn = 0;
 			while(analog10(right_sensor) > light_dark){
 				turn(-50);
 				move(20,5);
@@ -61,6 +77,7 @@ int main(void)
 		if((analog10(center_sensor) > dark) && (analog10(left_sensor) > light_dark))
 		{	
 			printf("Left sensor and center sensor are black, turning left: %d\n", analog10(left_sensor));
+			last_turn = 1;
 			while(analog10(left_sensor) > dark)
 			{
 				printf("Current center sensor value: %d\n", analog10(center_sensor));
