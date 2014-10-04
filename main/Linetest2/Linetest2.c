@@ -1,57 +1,3 @@
-
-void move(int power, int time){
-	
-	int leftPower = power;
-	int rightPower = (power + 11)*-1;
-	int count = 0;
-	
-	while(count < time){
-		motor(0, leftPower);
-		motor(1, rightPower);
-		count++;
-	}
-	
-}
-
-void turn(int angle){
-	
-	if(angle == 0){
-		return;
-	}
-	
-	int power = 25;
-	int leftPower;
-	int rightPower;
-	int count = 0;
-	int turnTime = angle;
-	
-	if(angle > 0){
-		turnTime = angle;
-	}
-	else{
-		turnTime = angle *-1;
-	}
-	
-	if(angle > 0){
-		leftPower = power * -1;
-		rightPower = (power + 10) * -1;
-	}
-	else{
-		leftPower = power;
-		rightPower = (power + 10) * 1;
-	}
-	
-	
-	
-	while(count < turnTime){
-		motor(0, leftPower);
-		motor(1, rightPower);
-		count++;
-	}
-	
-}
-
-
 int main()
 {
 	int rport=0;
@@ -66,10 +12,6 @@ int main()
 	/*if (analog10(cport)<500)
 		threshold=400;
 	*/
-	//Step 1: Moves 23 spaces
-	/*turn(90*6.1);
-	move(25,1000);*/
-
 	printf("Line following: position robot on tape\n");
 	printf("Press B button when ready\n\nPress side button to stop\n");
 	while(b_button()==0) {} 						// wait for button press
