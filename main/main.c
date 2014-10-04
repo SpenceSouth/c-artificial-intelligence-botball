@@ -13,7 +13,7 @@ int main()
 	
 	//Step 1: Moves 23 spaces
 	turn(80);
-	move(25,1000);
+	move(25,800);
 	msleep(1000);
 	
 	//Step 2
@@ -21,10 +21,11 @@ int main()
 	
 	//Step 3
 	turn(410);
-	move(25, 1000);
+	move(25, 850);
 	
 	//Step 4
-	//move(25, 1700);
+	turn(470);
+	move(75, 1700);
 	
 	//Step 5
 	//move(25, 500);
