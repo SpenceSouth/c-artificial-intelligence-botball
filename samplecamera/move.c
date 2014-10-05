@@ -11,5 +11,8 @@ void move(int power, int time){
 		motor(1, rightPower);
 		count++;
 	}
+		motor(0, 0);
+		motor(1, 0);
+	
 	
 }

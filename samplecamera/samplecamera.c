@@ -14,53 +14,68 @@ int main() {
     //Starting camera at low-resolution (higher framerate)
 	int i,j;
 	
-	graphics_open(160, 120);  // camera window in middle of the screen
+	//graphics_open(40, 40);  // camera window in middle of the screen
 	camera_open(LOW_RES);
+	printf("Awaiting optical input press B when the paper is staged. \n");
 	while(1){
-		camera_update();
-		int maxCount = 0;
-		int maxIndex = 0;
-		int colors[numChannels];
-		for( i = 0; i < numChannels; i++){
-			colors[i] = get_object_count(i);
-		}
+			printf ("looping in da loop\n");
 		
-		for(j = 0; j < numChannels; j++){
-			if(colors[j] > maxCount){
-				maxCount = colors[j];
-				maxIndex = j;
+			camera_update();
+			int maxCount = 0;
+			int maxIndex = 0;
+			int colors[numChannels];
+			for( i = 0; i < numChannels; i++){
+				colors[i] = get_object_count(i);
 			}
-		}
-		show_cam_image();       // display camera image on Link
+			printf ("Counting blobs\n");
+			for(j = 0; j < numChannels; j++){
+				if(colors[j] > maxCount){
+					maxCount = colors[j];
+					maxIndex = j;
+				}
+			}
+			printf ("updating image\n");
+			
+			
+			//show_cam_image();       // display camera image on Link
+			//graphics_update();
+					
+			printf ("Checking for button press\n");
+			
+			if (b_button()!=0)
+				{
+					printf("Evaluating max blob count\n");
+					if (maxIndex==0)
+						{
+							printf("I see black. Going backwards.\n");
+							move (-50, 100);	
+							printf("Move completed\n");
+						}	
+					if (maxIndex==1)
+						{
+							printf("I see green. Turning right.\n");
+							turn (-550);
+							printf("Move completed\n");
+						}
+					if(maxIndex==2)
+						{
+							printf("I see purple. Advancing.\n");
+							move (50, 100);
+							printf("Move completed\n");
 
-		switch(maxIndex){
-			case 0:	printf("I see black. Going backwards.\n");
-				move (-30, 10);	
-				break;
-			case 1:	printf("I see green. Turning right.\n");
-				turn (-90);
-					break;
-			case 2:	printf("I see purple. Advancing.\n");
-				move (30, 10);
-					break;
-			case 3:	printf("I see red. Turning left.\n");
-				turn (90);
-					break;
+						}
+					if (maxIndex==3)
+						{
+							printf("I see red. Turning left.\n");
+							turn (550);
+							printf("Move completed\n");
+						}
+					printf("Awaiting optical input press B when the paper is staged.\n");
+				}
 		}
 		
-		msleep(5000);
-		printf ("Looking for another color in 5 seconds");
-		msleep(1000);
-		printf ("Looking for another color in 4 seconds");
-		msleep(1000);
-		printf ("Looking for another color in 3 seconds");
-		msleep(1000);
-		printf ("Looking for another color in 2 seconds");
 
-		msleep(1000);
-		printf ("Looking for another color in 1 seconds");
-		
-	}
+	
 }
  
 void show_cam_image(){
