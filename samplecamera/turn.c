@@ -36,4 +36,7 @@ void turn(int angle){
 		count++;
 	}
 	
+	motor(0, 0);
+	motor(1, 0);
+	
 }
