@@ -42,6 +42,8 @@ int main(void)
 	
 	printf("Running\n\n");
 	
+	move(25, 100);
+	
 	while(1==1)
 	{
 	
