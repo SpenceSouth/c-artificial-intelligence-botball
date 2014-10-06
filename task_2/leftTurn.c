@@ -1,14 +1,14 @@
 #include "header.h"
 
-void leftTurn(void)
+void leftTurn()
 {	
 	//Decs
 	int right_sensor= 0;
 	int center_sensor = 1;
 	int left_sensor = 2;
-	int dark = 500; 
 	int light_dark = 500;
 	int last_turn = 0;
+	int dark = 500;
 	
 	//Move forward until the right sensor is off of black
 	while(analog10(left_sensor) > dark)
