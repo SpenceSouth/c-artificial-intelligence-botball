@@ -50,7 +50,7 @@ int main(void)
 		//While there is not turn available, keep on keeping on.
 		while(isTurnAvailable() == 0)
 		{
-			moveForward();
+			moveForward(last_turn);
 		}
 		
 		printf("Turn is available\n");
@@ -58,11 +58,13 @@ int main(void)
 		if(isTurnAvailable() == 2)
 		{
 			leftTurn();
+			last_turn = 1;
 		}
 		
 		if(isTurnAvailable() == 1)
 		{
 			rightTurn();
+			last_turn = 0;
 		}
 		
 	}//End of while loop

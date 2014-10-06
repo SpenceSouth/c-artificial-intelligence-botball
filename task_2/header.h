@@ -5,10 +5,10 @@
 int main(void);
 void move(int power, int time);
 void turn(int angle);
-void moveForward(void);
+void moveForward(int boolean);
 int isTurnAvailable(void);
-void rightTurn(void);
-void leftTurn(void);
+void rightTurn();
+void leftTurn();
 
 
 

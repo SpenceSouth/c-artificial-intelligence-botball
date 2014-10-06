@@ -1,13 +1,12 @@
 #include "header.h"
 
-void rightTurn(void)
+void rightTurn()
 {	
 	//Decs
 	int right_sensor= 0;
 	int center_sensor = 1;
 	int left_sensor = 2;
-	int dark = 500; 
-	int light_dark = 500;
+	int dark = 500;
 	int last_turn = 0;
 	
 	//Move forward until the right sensor is off of black
