@@ -14,11 +14,11 @@ int main() {
     //Starting camera at low-resolution (higher framerate)
 	int i,j;
 	
-	//graphics_open(40, 40);  // camera window in middle of the screen
+	graphics_open(80, 80);  // camera window in middle of the screen
 	camera_open(LOW_RES);
 	printf("Awaiting optical input press B when the paper is staged. \n");
 	while(1){
-			printf ("looping in da loop\n");
+			//printf ("looping in da loop\n");
 		
 			camera_update();
 			int maxCount = 0;
@@ -37,14 +37,14 @@ int main() {
 			printf ("updating image\n");
 			
 			
-			//show_cam_image();       // display camera image on Link
-			//graphics_update();
+			show_cam_image();       // display camera image on Link
+			graphics_update();
 					
-			printf ("Checking for button press\n");
+			//printf ("Checking for button press\n");
 			
 			if (b_button()!=0)
 				{
-					printf("Evaluating max blob count\n");
+					//printf("Evaluating max blob count\n");
 					if (maxIndex==0)
 						{
 							printf("I see black. Going backwards.\n");

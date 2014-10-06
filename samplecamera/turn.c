@@ -20,23 +20,23 @@ void turn(int angle){
 	}
 	
 	if(angle > 0){
-		leftPower = power * -1;
-		rightPower = (power + 10) * -1;
+		leftPower = power*-1 ;
+		rightPower = (power + 10) ;
 	}
 	else{
 		leftPower = power;
-		rightPower = (power + 10) * 1;
+		rightPower = (power + 10) * -1;
 	}
 	
 	
 	
 	while(count < turnTime){
 		motor(0, leftPower);
-		motor(1, rightPower);
+		motor(2, rightPower);
 		count++;
 	}
 	
 	motor(0, 0);
-	motor(1, 0);
+	motor(2, 0);
 	
 }
