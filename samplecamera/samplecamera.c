@@ -58,12 +58,12 @@ not used  Channel 3:
 			else if (maxIndex==1)
 			{
 				returnColor='g';
-				//call solenoid flag
+				solenoidMove(returnColor);
 			}
 			else if (maxIndex==2)
 			{
 				returnColor='r';
-				//call solenoid flag
+				solenoidMove(returnColor);
 			}
 			else 
 			{
@@ -75,76 +75,3 @@ not used  Channel 3:
 			
 			// This has returned maxIndex which is the color index of the 
 			// color that had the most blocks
-			
-			
-/*			
-			//printf ("updating image\n");
-			
-			
-			//show_cam_image();       // display camera image on Link
-			//graphics_update();
-					
-			//printf ("Checking for button press\n");
-			
-			if (b_button()!=0)
-				{
-					//printf("Evaluating max blob count\n");
-					if (maxIndex==0)
-						{
-							printf("I see black. Going backwards.\n");
-							move (-50, 100);	
-							printf("Move completed\n");
-						}	
-					if (maxIndex==1)
-						{
-							printf("I see green. Turning right.\n");
-							turn (-550);
-							printf("Move completed\n");
-						}
-					if(maxIndex==2)
-						{
-							printf("I see purple. Advancing.\n");
-							move (50, 100);
-							printf("Move completed\n");
-
-						}
-					if (maxIndex==3)
-						{
-							printf("I see red. Turning left.\n");
-							turn (550);
-							printf("Move completed\n");
-						}
-					printf("Awaiting optical input press B when the paper is staged.\n");
-				}
-		}
-		
-
-	
-}
- 
-void show_cam_image(){
-
-  const unsigned char *img=get_camera_frame();
-
-  // Frame data is in BGR 888 pixel format: 3 bytes per pixel; each
-
-  // character is the 8-bit (unsigned) integer value for each BGR color
-
-  int row, col, rgb[3]={2,1,0}; // array used to convert BGR to RGB
-
-  for(row=0;row<120;row++){
-
-    for(col=0;col<160; col++){
-
-      graphics_pixel(col,row,
-
-      img[3*(160*row+col)+rgb[0]],img[3*(160*row+col)+rgb[1]],
-
-      img[3*(160*row+col)+rgb[2]]);
-
-    }
-
-  }
-
-}
-*/

@@ -5,6 +5,7 @@
 int main(void);
 void move(int power, int time);
 void turn(int angle);
+void solenoidMove(char color);
 
 
 
