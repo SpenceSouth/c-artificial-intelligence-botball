@@ -1,16 +1,16 @@
-#define numChannels 4
+#define numChannels 3
 #include "header.h"
 /*	
-Channel 0: Black
+Channel 0: Purple
 Channel 1: Green
-Channel 2: Purple
-Channel 3: Red
+Channel 2: Red
+not used  Channel 3: 
 */
 
 
 //void show_cam_image();
 
-int main() {
+char samplecamera() {
     //Starting camera at low-resolution (higher framerate)
 	int i,j;
 	
@@ -21,6 +21,7 @@ int main() {
 			//printf ("looping in da loop\n");
 		
 			camera_update();
+			char returnColor;
 			int maxCount = 0;
 			int maxIndex = 0;
 			int colors[numChannels];
@@ -37,11 +38,46 @@ int main() {
 					
 				}
 			}
+			
+			/*	
+Channel 0: Purple
+Channel 1: Green
+Channel 2: Red
+not used  Channel 3: 
+*/
+
+			
+			if (maxCount<20)
+			{
+					maxIndex=-1;
+			}
+			if (maxIndex==0)
+			{
+				returnColor='p';
+			}
+			else if (maxIndex==1)
+			{
+				returnColor='g';
+				//call solenoid flag
+			}
+			else if (maxIndex==2)
+			{
+				returnColor='r';
+				//call solenoid flag
+			}
+			else 
+			{
+				returnColor='w';
+			}
+			
+		return (returnColor);
+		}
+			
 			// This has returned maxIndex which is the color index of the 
 			// color that had the most blocks
 			
 			
-			
+/*			
 			//printf ("updating image\n");
 			
 			
@@ -111,3 +147,4 @@ void show_cam_image(){
   }
 
 }
+*/
