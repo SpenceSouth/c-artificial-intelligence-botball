@@ -3,7 +3,7 @@
 void move(int power, int time){
 	
 	int leftPower = power;
-	int rightPower = (power + 11)*-1;
+	int rightPower = (power + 27)*-1;
 	int count = 0;
 	
 	while(count < time){
