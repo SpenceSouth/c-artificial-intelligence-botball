@@ -8,15 +8,15 @@ Channel 3: Red
 */
 
 
-void show_cam_image();
+//void show_cam_image();
 
 int main() {
     //Starting camera at low-resolution (higher framerate)
 	int i,j;
 	
-	graphics_open(80, 80);  // camera window in middle of the screen
+//	graphics_open(80, 80);  // camera window in middle of the screen
 	camera_open(LOW_RES);
-	printf("Awaiting optical input press B when the paper is staged. \n");
+	//printf("Awaiting optical input press B when the paper is staged. \n");
 	while(1){
 			//printf ("looping in da loop\n");
 		
@@ -27,18 +27,26 @@ int main() {
 			for( i = 0; i < numChannels; i++){
 				colors[i] = get_object_count(i);
 			}
-			printf ("Counting blobs\n");
+			//printf ("Counting blobs\n");
 			for(j = 0; j < numChannels; j++){
 				if(colors[j] > maxCount){
 					maxCount = colors[j];
 					maxIndex = j;
+				// need to add a limit so that if it sees red dust on a 
+				//	white square we don't get red
+					
 				}
 			}
-			printf ("updating image\n");
+			// This has returned maxIndex which is the color index of the 
+			// color that had the most blocks
 			
 			
-			show_cam_image();       // display camera image on Link
-			graphics_update();
+			
+			//printf ("updating image\n");
+			
+			
+			//show_cam_image();       // display camera image on Link
+			//graphics_update();
 					
 			//printf ("Checking for button press\n");
 			
