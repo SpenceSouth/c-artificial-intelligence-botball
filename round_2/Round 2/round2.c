@@ -15,6 +15,87 @@ int locationY = 3;
 char facing = 'w';
 char locationValue = 'w';
 
+//Set Prototypes
+char getLocationColor(void);
+int isCorner(void);
+void forward(void);
+void right(void);
+void left(void);
+void printLocation(void);
+int notStraightPath(void);
+void turn(int angle);
+void move(int power, int time);
+void solenoidMove(char color);
+
+int main(void)
+{
+	
+	//Decs
+	int right_sensor= 5;
+	int center_sensor = 2;
+	int left_sensor = 0;
+	int dark = 500; 
+	int light_dark = 500;
+	int last_turn = 0;
+	
+	
+	printf("Starting line following program\n");
+	
+	printf("press b to start");
+	while(b_button() == 0)
+	{
+		
+	}
+	
+	printf("Running\n\n");
+	
+	printLocation();
+	
+	while(1==1)
+	{
+		while(notStraightPath() == 0 && analog10(center_sensor) < 600)
+		{
+			move(1 , 1);
+		}
+		
+		//Center sensor has crossed the threshold for a box.  Update map.
+		if(analog10(center_sensor) > 600)
+		{
+			forward();
+			printLocation();
+			solenoidMove(getLocationColor());
+		}
+		
+		//While the center sensor is moving over the tape, keep moving forward.
+		while(analog10(center_sensor) > 600)
+		{
+			move(1,1);
+		}
+		
+		//Straighten out if necessary
+		while( notStraightPath() ==1)
+		{
+				turn(10);
+				move(1 , 1);
+		}
+		
+		//Straighten out if necessary
+		while( notStraightPath() == 2)
+		{
+				turn(-10);
+				move(1 , 1);
+		}
+		
+
+		
+	}//End of while loop
+	
+	printf("Done");
+	
+	
+	return 0;
+}
+
 char getLocationColor(void)
 {
 	if(a[locationY][locationX] == 0)
@@ -40,7 +121,7 @@ char getLocationColor(void)
 }
 
 //returns 0 if false. 1 if true
-int isCorner()
+int isCorner(void)
 {
 	if(locationX == 0 && locationY == 0)
 	{
@@ -64,7 +145,7 @@ int isCorner()
 	}
 }
 
-void forward()
+void forward(void)
 {
 	if(facing == 'n')
 	{
@@ -85,7 +166,7 @@ void forward()
 }
 
 //Moves one square to the right of the relative forward facing position. Updates facing.
-void right()
+void right(void)
 {
 	if(facing == 'n')
 	{
@@ -114,7 +195,7 @@ void right()
 }
 
 //Moves one square to the left of the relative forward facing position.  Updates facing.
-void left()
+void left(void)
 {
 	if(facing == 'n')
 	{
@@ -142,13 +223,13 @@ void left()
 	}
 }
 
-void printLocation()
+void printLocation(void)
 {
 	printf("The robot is currently located at (%d,%d)\n", locationX, locationY);
 	printf("The color of this space is %c\n", getLocationColor());
 }
 
-int notStraightPath()
+int notStraightPath(void)
 {
 	
 	//Decs
@@ -232,12 +313,12 @@ void solenoidMove(char color){
 
 	if(color == 'g'){
 		enable_servos();
-		set_servo_position(0, 1700);
+		set_servo_position(0, 1250);
 	} // end if sees green
 
 	else if(color == 'r'){
 		enable_servos();
-		set_servo_position(0, 300);
+		set_servo_position(0, 750);
 	} // end elif sees red
 	
 	else{
@@ -246,72 +327,3 @@ void solenoidMove(char color){
 	} // end else
 
 } // end solenoidMove
-
-int main(void)
-{
-	
-	//Decs
-	int right_sensor= 5;
-	int center_sensor = 2;
-	int left_sensor = 0;
-	int dark = 500; 
-	int light_dark = 500;
-	int last_turn = 0;
-	
-	
-	printf("Starting line following program\n");
-	
-	printf("press b to start");
-	while(b_button() == 0)
-	{
-		
-	}
-	
-	printf("Running\n\n");
-	
-	printLocation();
-	
-	while(1==1)
-	{
-		while(notStraightPath() == 0 && analog10(center_sensor) < 600)
-		{
-			move(1 , 1);
-		}
-		
-		//Center sensor has crossed the threshold for a box.  Update map.
-		if(analog10(center_sensor) > 600)
-		{
-			forward();
-			printLocation();
-			solenoidMove(getLocationColor);
-		}
-		
-		//While the center sensor is moving over the tape, keep moving forward.
-		while(analog10(center_sensor) > 600)
-		{
-			move(1,1);
-		}
-		
-		//Straighten out if necessary
-		while( notStraightPath() ==1)
-		{
-				turn(10);
-				move(1 , 1);
-		}
-		
-		//Straighten out if necessary
-		while( notStraightPath() == 2)
-		{
-				turn(-10);
-				move(1 , 1);
-		}
-		
-
-		
-	}//End of while loop
-	
-	printf("Done");
-	
-	
-	return 0;
-}
