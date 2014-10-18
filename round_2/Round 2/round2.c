@@ -53,7 +53,7 @@ int main(void)
 	
 	printLocation();
 	
-	while(1==1)
+	while(getLocationColor != 'p')
 	{
 		while(notStraightPath() == 0 && analog10(center_sensor) < 600)
 		{
@@ -91,8 +91,9 @@ int main(void)
 			
 			//Do right turn
 			printf("Turning right\n");
-			turn(-275);
+			turn(-250);
 			right();
+			printLocation();
 			move(25, 30);
 			
 			
