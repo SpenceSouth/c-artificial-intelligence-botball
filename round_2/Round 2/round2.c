@@ -80,16 +80,19 @@ int main(void)
 		//Check if facing an edge
 		if(isFacingEdge() == 1)
 		{
+			move(25,45);
+		
 			//While the front sensor hasn't hit the edge yet continue forward and keep straight
-			while(analog10(center_sensor) > 600)
+			while(analog10(center_sensor) < 600)
 			{
 				move(1,1);
 				keepStraight();
 			}
 			
 			//Do right turn
-			printf("Turning right");
-			turn(-550);
+			printf("Turning right\n");
+			turn(-275);
+			right();
 			move(25, 30);
 			
 			
