@@ -26,6 +26,8 @@ int notStraightPath(void);
 void turn(int angle);
 void move(int power, int time);
 void solenoidMove(char color);
+int isFacingEdge(void);
+void keepStraight(void);
 
 int main(void)
 {
@@ -72,15 +74,36 @@ int main(void)
 			move(1,1);
 		}
 		
+		//Continues to move to get the left and right sensors over the black line
+		move(25,30);
+		
+		//Check if facing an edge
+		if(isFacingEdge() == 1)
+		{
+			//While the front sensor hasn't hit the edge yet continue forward and keep straight
+			while(analog10(center_sensor) > 600)
+			{
+				move(1,1);
+				keepStraight();
+			}
+			
+			//Do right turn
+			printf("Turning right");
+			turn(-550);
+			move(25, 30);
+			
+			
+		}
+		
 		//Straighten out if necessary
-		while( notStraightPath() ==1)
+		while(notStraightPath() == 1)
 		{
 				turn(10);
 				move(1 , 1);
 		}
 		
 		//Straighten out if necessary
-		while( notStraightPath() == 2)
+		while(notStraightPath() == 2)
 		{
 				turn(-10);
 				move(1 , 1);
@@ -141,6 +164,29 @@ int isCorner(void)
 	}
 	else
 	{
+		return 0;
+	}
+}
+
+int isFacingEdge(void)
+{
+	if(facing == 'n' && locationY == 0)
+	{
+		return 1;
+	}
+	else if(facing == 'e' && locationX == 7)
+	{
+		return 1;
+	}
+	else if(facing == 'w' && locationX == 0)
+	{
+		return 1;
+	}
+	else if(facing == 's' && locationY == 5)
+	{
+	return 1;
+	}
+	else{
 		return 0;
 	}
 }
@@ -231,7 +277,6 @@ void printLocation(void)
 
 int notStraightPath(void)
 {
-	
 	//Decs
 	int right_sensor= 5;
 	int center_sensor = 2;
@@ -255,6 +300,23 @@ int notStraightPath(void)
 	
 	
 	return 0;
+}
+
+void keepStraight(void)
+{
+	//Straighten out if necessary
+		while(notStraightPath() == 1)
+		{
+				turn(10);
+				move(1 , 1);
+		}
+		
+		//Straighten out if necessary
+		while(notStraightPath() == 2)
+		{
+				turn(-10);
+				move(1 , 1);
+		}
 }
 
 void turn(int angle){
