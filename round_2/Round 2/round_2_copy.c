@@ -10,10 +10,10 @@ int a[6][8] = {
  {1, 0, 2, 2, 0, 0, 2, 0},
 }; //white 0, red 1, green 2, purp 3
 
-int locationX = 7;
-int locationY = 3;
-char facing = 'w';
-char locationValue = 'w';
+int locationX = 1;
+int locationY = 0;
+char facing = 'e';
+char locationValue = 'r';
 
 //Set Prototypes
 char getLocationColor(void);
@@ -28,6 +28,7 @@ void move(int power, int time);
 void solenoidMove(char color);
 int isFacingEdge(void);
 void keepStraight(void);
+int checkTurn(void);
 
 int main(void)
 {
@@ -49,78 +50,109 @@ int main(void)
 		
 	}
 	
-	printf("Running\n\n");
+	printf("\nRunning\n\n");
+	int edges_hit = 0;
 	
-	printLocation();
-	
-	//Get to 0,0
-	
-	
-	//After getting to 0,0
-	while(getLocationColor != 'p')
+	while(edges_hit < 2)
 	{
-		while(notStraightPath() == 0 && analog10(center_sensor) < 600)
+		//Check if facing an edge (all sensors are black) and turn right if true
+		if(analog10(center_sensor) > 600 && analog10(right_sensor) > 600 && analog10(left_sensor) > 600)
+		{
+			//Do right turn
+			printf("Edge found. Turning right\n");
+			turn(-250);
+			move(25, 20);
+			edges_hit++;
+		}
+		// While in a square
+		while(notStraightPath() == 0 && analog10(center_sensor) < 600 && edges_hit < 2)
 		{
 			move(1 , 1);
 		}
 		
-		//Center sensor has crossed the threshold for a box.  Update map.
+		keepStraight();
+		//Center sensor has crossed the threshold for a box.
 		if(analog10(center_sensor) > 600)
 		{
-			forward();
-			printLocation();
-			solenoidMove(getLocationColor());
+			// Check color of box and move servo
+			//solenoidMove(getLocationColor());
 		}
-		
 		//While the center sensor is moving over the tape, keep moving forward.
-		while(analog10(center_sensor) > 600)
+		while(analog10(center_sensor) > 600 && !(analog10(right_sensor) > 600 || analog10(left_sensor) > 600))
 		{
 			move(1,1);
 		}
-		
 		//Continues to move to get the left and right sensors over the black line
-		move(25,30);
+		move(25,20);
 		
-		//Check if facing an edge
-		if(isFacingEdge() == 1)
+		//keepStraight();
+	}
+	printf("Found point 0,0\n");
+	//after gets to 1,1
+	while(1==1){
+	
+		while(notStraightPath()==0 && analog10(center_sensor) < 600){
+			move(1,1);
+		}
+		if(getLocationColor() == 'p') break;
+		if(analog10(center_sensor) > 600){
+			forward();
+			printLocation();
+			solenoidMove(getLocationColor());
+			
+		}
+		while(analog10(center_sensor) > 600)
 		{
-			move(25,45);
-		
-			//While the front sensor hasn't hit the edge yet continue forward and keep straight
+			move(1,1);
+		}		
+
+		move(25,20);
+		int turnID = checkTurn();
+		if(turnID ==0){
+			//no turn
+			solenoidMove(getLocationColor());
+		}
+		if(turnID ==1){
+			//right
 			while(analog10(center_sensor) < 600)
 			{
 				move(1,1);
 				keepStraight();
 			}
 			
-			//Do right turn
-			printf("Turning right\n");
 			turn(-250);
 			right();
 			printLocation();
-			move(25, 30);
-			
+			solenoidMove(getLocationColor());
 			
 		}
+		if(turnID ==2){
+			//left
+			while(analog10(center_sensor) < 600)
+			{
+				move(1,1);
+				keepStraight();
+			}
+			turn(250);
+			left();
+			printLocation();
+			solenoidMove(getLocationColor());
+		}
 		
-		//Straighten out if necessary
 		while(notStraightPath() == 1)
 		{
-				turn(10);
+				turn(7);
 				move(1 , 1);
 		}
-		
-		//Straighten out if necessary
 		while(notStraightPath() == 2)
 		{
-				turn(-10);
+				turn(-7);
 				move(1 , 1);
 		}
-		
-
-		
-	}//End of while loop
-	
+		if(getLocationColor() == 'p') break;	
+}//End of while loop
+	move(25,30);
+	move(25,30);
 	printf("Done");
 	
 	
@@ -379,21 +411,42 @@ void move(int power, int time){
 	
 }
 
+int checkTurn(void){
+	if(locationX == 0 && locationY == 0 && facing =='n') return 1;
+
+	if(locationX == 7 && locationY == 0 && facing =='e') return 1;
+	if(locationX == 7 && locationY == 1&& facing =='s') return 1;
+	
+	if(locationX == 0 && locationY == 1&& facing =='w') return 2;
+	if(locationX == 0 && locationY == 2&& facing =='s') return 2;
+	
+	if(locationX == 7 && locationY == 2&& facing =='e') return 1;
+	if(locationX == 7 && locationY == 3&& facing =='s') return 1;
+	
+	if(locationX == 0 && locationY == 3&& facing =='w') return 2;
+	if(locationX == 0 && locationY == 5&& facing =='s') return 2;
+	
+	if(locationX == 7 && locationY == 5&& facing =='e') return 2;
+	if(locationX == 7 && locationY == 4&& facing =='n') return 2;
+	
+	return 0;
+}
+
 void solenoidMove(char color){
 
 	if(color == 'g'){
 		enable_servos();
-		set_servo_position(0, 1250);
+		set_servo_position(0, 0);
 	} // end if sees green
 
 	else if(color == 'r'){
 		enable_servos();
-		set_servo_position(0, 750);
+		set_servo_position(0, 2047);
 	} // end elif sees red
 	
 	else{
 		enable_servos();
-		set_servo_position(0, 1024);
+		set_servo_position(0, 1400);
 	} // end else
 
 } // end solenoidMove
